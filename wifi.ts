@@ -86,17 +86,17 @@ namespace ISDTiot {
   }
 
   //%blockId=get_blynk_data
-    //%block="Read data from Blynk"
+    //%block="Blynk Iot: Read Pin %pin with Token %auth_token"
     //% weight=60
 	//% blockGap=7
-  export function readBlynkPinValue(pin: string, auth_token: string): string {
-    let value - "";
+  export function readBlynkPinValue(pin: string, auth_token: string): number  {
+    let value = "";
     let link ="blynk.cloud:80/external/api/get?token=" + auth_token + "&pin=" + pin;
     serial.writeLine("(AT+http?method=GET" + "&url=" + link + "&header=&body=)");
     for (let respone of ISDTiot.getGenericHttpReturn()) {
         value = respone;
     }
-    return value;
+    return parseInt(value);
 }
 
 
