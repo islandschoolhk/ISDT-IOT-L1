@@ -1,4 +1,8 @@
 namespace ISDTiot {
+  let inbound1 = ""
+  let inbound2 = ""
+  let outbound1 = ""
+  let outbound2 = ""
   let httpReturnArray: string[] = []
 
   
@@ -24,6 +28,73 @@ namespace ISDTiot {
   export function initializeWifi(): void {
     serial.redirect(SerialPin.P16, SerialPin.P8, BaudRate.BaudRate115200);
     MuseOLED.init();
+
+
+    serial.onDataReceived(serial.delimiters(Delimiters.NewLine), () => {
+      let temp = serial.readLine();
+      let tempDeleteFirstCharacter = "";
+
+
+      if (temp.charAt(0).compare("#") == 0) {
+        tempDeleteFirstCharacter = temp.substr(1, 20)
+        httpReturnArray.push(tempDeleteFirstCharacter)
+      } else if (temp.charAt(0).compare("*") == 0) {
+
+        // For digital, pwm, servo
+        let mode = temp.substr(1, 1)
+        let intensity = 0
+        let pin = 0
+
+        // For motor and car
+        let motor = 0
+        let direction = 0
+
+        // For control 2 motor same time mode
+        let direction1 = 0
+        let direction2 = 0
+        let intensity1 = 0
+        let intensity2 = 0
+
+        if (mode == "0") {	//digital
+          pin = parseInt(temp.substr(3, 2)) - 7
+          intensity = parseInt(temp.substr(2, 1))
+          switch (pin) {
+            case 0:
+              pins.digitalWritePin(DigitalPin.P0, intensity);
+              break
+            case 1:
+              pins.digitalWritePin(DigitalPin.P1, intensity);
+              break
+            case 2:
+              pins.digitalWritePin(DigitalPin.P2, intensity);
+              break
+            case 12:
+              pins.digitalWritePin(DigitalPin.P12, intensity);
+              break
+          }
+
+
+        } 
+
+        //basic.showNumber(pin)
+        //basic.showNumber(intensity)
+
+      } else if (temp.charAt(0).compare("$") == 0) {
+        let no = parseInt(temp.substr(1, 1))
+        let string_word = temp.substr(2, 20)
+
+        if (no == 1) {
+          inbound1 = string_word
+        } else if (no == 2) {
+          inbound2 = string_word
+        }
+
+      } else {
+        MuseOLED.writeStringNewLine(temp)
+      }
+    })
+
+
     basic.pause(5000);
   }
   
