@@ -1,0 +1,19 @@
+{
+    "name": "pxt-muselab",
+    "version": "1.9.52",
+    "description": "ISDT modified blocks to simplify using muselab products in PXT",
+    "license": "MIT",
+    "dependencies": {
+        "core": "*",
+        "pxt-museoled": "github:muselab/pxt-muselab-oled-v2#v2.0.20"
+    },
+    "files": [
+        "README.md",
+        "ns.ts",
+        "wifi.ts"
+    ],
+    "testFiles": [
+        "tests.ts"
+    ],
+    "public": true
+}
