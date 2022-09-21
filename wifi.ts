@@ -23,10 +23,10 @@ namespace ISDTiot {
   //% group="Booster"
   export function initializeWifi(): void {
     serial.redirect(SerialPin.P16, SerialPin.P8, BaudRate.BaudRate115200);
-    basic.pause(500);
     MuseOLED.init();
     basic.pause(5000);
   }
+  
 
   // -------------- 2. WiFi ----------------
   //% blockId=muselab_set_wifi
