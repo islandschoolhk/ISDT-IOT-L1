@@ -106,14 +106,16 @@ namespace ISDTiot {
   //% group="WIFI"
   export function setWifi(ssid: string, pwd: string): void {
     serial.writeLine("(AT+wifi?ssid=" + ssid + "&pwd=" + pwd + ")");
+    basic.pause(5000);
   }
-
-   //% blockId=muselab_set_dt_wifi
+  
+  //% blockId=muselab_set_dt_wifi
   //% block="Connect to D&T WiFi"   
   //% weight=80
   //% group="WIFI"
   export function setDTWifi(): void {
     serial.writeLine("(AT+wifi?ssid=DT24&pwd=DT2022@$)");
+    basic.pause(5000);
   }
 
   //%subcategory=More
@@ -166,6 +168,7 @@ namespace ISDTiot {
     serial.writeLine("(AT+http?method=GET" + "&url=" + link + "&header=&body=)");
     for (let respone of ISDTiot.getGenericHttpReturn()) {
         value = respone;
+        MuseOLED.writeStringNewLine(value);
     }
     return value;
 }
